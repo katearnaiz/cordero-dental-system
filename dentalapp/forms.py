@@ -1,6 +1,9 @@
 from django import forms
 from .models import Supplier
 from .models import Customer
+from .models import Material
+#from .models import Delivery
+from .models import Delivered_Material
 class SupplierForm(forms.ModelForm):
     class Meta:
         model=Supplier
@@ -39,3 +42,29 @@ class CustomerForm(forms.ModelForm):
             'contact_number': 'Contact Number',
         }
 
+class Delivered_MaterialForm(forms.ModelForm):
+    class Meta:
+        model=Delivered_Material
+        fields = ('supplier', 'material','quantity_restock', 'delivery_date','parcel_number')
+        labels = {
+            'supplier': 'Supplier',
+            'material': 'Delivered Material',
+            'quantity_restock': 'Restock Quantity',
+            'delivery_date': 'Delivery Date',
+            'parcel_number': 'Parcel Number',
+        }
+    def __init__(self,*args,**kwargs):
+        super(Delivered_MaterialForm,self).__init__(*args, **kwargs)
+        self.fields['parcel_number'].required=False
+
+class MaterialForm(forms.ModelForm):
+    class Meta:
+        model=Material
+        fields = ('material_name', 'material_type','threshold_value_unit','threshold_value','current_quantity')
+        labels = {
+            'material_name': 'Material Name',
+            'material_type': 'Material Type',
+            'threshold_value_unit': 'Threshold Value Unit',
+            'threshold_value': 'Threshold Value',
+            'current_quantity': 'Current Quantity',
+        }
