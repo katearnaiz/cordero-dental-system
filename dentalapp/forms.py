@@ -4,6 +4,15 @@ from .models import Customer
 from .models import Material
 #from .models import Delivery
 from .models import Delivered_Material
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
+class CreateUserForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
+
+
 class SupplierForm(forms.ModelForm):
     class Meta:
         model=Supplier
@@ -42,6 +51,11 @@ class CustomerForm(forms.ModelForm):
             'contact_number': 'Contact Number',
         }
 
+        widgets = {
+            'customer_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'contact_number': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
 class Delivered_MaterialForm(forms.ModelForm):
     class Meta:
         model=Delivered_Material
@@ -53,6 +67,15 @@ class Delivered_MaterialForm(forms.ModelForm):
             'delivery_date': 'Delivery Date',
             'parcel_number': 'Parcel Number',
         }
+
+        widgets = {
+            'supplier': forms.Select(attrs={'class': 'form-control'}),
+            'material': forms.Select(attrs={'class': 'form-control'}),
+            'quantity_restock': forms.NumberInput(attrs={'class': 'form-control', 'min':"0"}),
+            'delivery_date': forms.DateInput(attrs={'class': 'form-control'}),
+            'parcel_number': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
     def __init__(self,*args,**kwargs):
         super(Delivered_MaterialForm,self).__init__(*args, **kwargs)
         self.fields['parcel_number'].required=False
@@ -68,3 +91,12 @@ class MaterialForm(forms.ModelForm):
             'threshold_value': 'Threshold Value',
             'current_quantity': 'Current Quantity',
         }
+
+        widgets = {
+            'material_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'material_type': forms.RadioSelect(),
+            'threshold_value_unit': forms.TextInput(attrs={'class': 'form-control'}),
+            'threshold_value': forms.NumberInput(attrs={'class': 'form-control', 'min':"0"}),
+            'current_quantity': forms.NumberInput(attrs={'class': 'form-control', 'min':"0"}),
+        }
+

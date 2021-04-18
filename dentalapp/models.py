@@ -1,6 +1,8 @@
 from django.db import models
 from datetime import datetime
 from django.utils import timezone
+from django.db.models.signals import post_save
+
 
 # Create your models here.
 
@@ -37,19 +39,35 @@ class Material(models.Model):
         ('Perishable', 'Perishable'),
         ('Non-Perishable', 'Non-Perishable')
     ]
-    material_type = models.CharField(max_length=25, choices=m_type, default='Non-Perishable')
+    material_type = models.CharField(max_length=25, choices=m_type, default ='Perishable')
     threshold_value_unit = models.CharField(max_length=10, default=None)
     threshold_value = models.IntegerField(default=None)
-    current_quantity = models.IntegerField(default=None)
+    current_quantity = models.IntegerField(default=0)
+    Low = 'Low Supply'
+    Mid = 'In-Supply (Mid)'
+    High = 'In-Supply (High)'
     Supply =[
-    ('Low','Low Supply'),
-    ('Mid', 'In-Supply (Med)'),
-    ('High', 'In-Supply (High)'),
+    ("Low",'Low Supply'),
+    ("Mid", 'In-Supply (Mid)'),
+    ("High", 'In-Supply (High)'),
     ]
-    supply_status = models.CharField(max_length=20, choices=Supply, default='Low')
+    supply_status = models.CharField(max_length=25, choices=Supply, default = None)
    
     def __str__(self):
         return str(self.material_name)
+    
+    def supplydisplay(self):
+        return str(self.current_quantity) + " " + self.threshold_value_unit
+
+    def save(self, *args, **kwargs):
+        if self.current_quantity>=self.threshold_value*2:
+            self.supply_status = "High" 
+        elif self.current_quantity>=self.threshold_value and self.current_quantity < self.threshold_value*2:
+            self.supply_status = "Mid"
+        else:
+            self.supply_status = "Low"
+        super().save(*args, **kwargs)
+        
 
 
 class Delivered_Material(models.Model):
@@ -62,4 +80,17 @@ class Delivered_Material(models.Model):
 
     def __str__(self):
         return str(self.supplier)
+
+    #def Updatestock(self, *args, **kwargs):
+        #material_instance = self.material   # fetch the related A object in my_a
+        #material_instance.current_quantity += self.quantity_restock  # update the no field of that object
+        #material_instance.save()
+
+
+    #post_save.connect(Updatestock, sender=Delivered_Material)
+    def save(self, *arg, **kwargs):
+        super(Delivered_Material, self).save(*arg, **kwargs)
+        self.material.current_quantity += self.quantity_restock
+        self.material.save()
+    
 

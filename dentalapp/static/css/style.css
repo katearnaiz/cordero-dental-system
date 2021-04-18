@@ -77,7 +77,10 @@ nav ul li {
     list-style: none;
     line-height: 60px;
     border-bottom: 1px solid rgba(255,255,255,0.1);
+    
 }
+
+
 
 nav ul li a {
     position: relative;
@@ -106,11 +109,11 @@ nav ul .feat-show.show {
     display: block;
 }
 
-nav ul .cus-show.show1 {
+nav ul .delivery-show.show2 {
     display: block;
 }
 
-nav ul .delivery-show.show2 {
+nav ul .cus-show.show1 {
     display: block;
 }
 
@@ -158,6 +161,7 @@ nav ul li a:hover span {
     /*padding-left: 20rem; */
     padding-top: 5rem;
     font-family: "Roboto", sans-serif;
+    overflow-x: auto;
 }
 
 .table-container table {
@@ -175,15 +179,24 @@ nav ul li a:hover span {
 
 .table-container table td,
 .table-container table th {
-    padding: 16px 32px;
+    padding: 16px 20px;
     text-align: center;
 }
 
 .table-container table tr {
-    border-bottom: 1px solid #eee;
+    border-bottom: 2px solid #C4C4C4;
 }
 
+.searchContainer {
+    padding-top: 2rem;
+    display: flex;
+    margin: 0 10%;
+    justify-content: flex-end;
+}
 
+.searchBar {
+    
+}
 
 .toggle {
     position: absolute;
@@ -217,6 +230,14 @@ nav ul li a:hover span {
 /* MEDIA QUERIES */
 
 @media (max-width: 580px) {
+    /*.searchBar {
+        top: 15%;
+    }*/
+
+    .table-container table {
+        margin-top: 3rem;
+    }
+
     .table-container table thead {
         display: none;
     }

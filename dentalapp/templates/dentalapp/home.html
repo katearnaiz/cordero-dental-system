@@ -40,7 +40,7 @@
 
         <li>
             <a href="#" class="supplier-btn">Suppliers
-                <span class="fas fa-caret-down first"></span>
+                <span class="fas fa-caret-down"></span>
             </a>
             <ul class="feat-show">
                 <li><a href="{% url 'dentalapp:supplier_list' %}">View Suppliers</a></li>
@@ -56,6 +56,8 @@
                 <li><a href="{% url 'dentalapp:material_list' %}">View Materials</a></li>
                 <li><a href="{% url 'dentalapp:material_form' %}">Add Materials</a></li>
             </ul>
+        </li>
+        <li>
         </li>
 
         <li>
@@ -79,7 +81,7 @@
         </li>
 
         <li>
-            <a href="#">Logout</a>
+            <a href="{% url 'dentalapp:logout' %}">Logout</a>
         </li>
     </ul>
 </nav>
@@ -96,7 +98,6 @@
             $(this).toggleClass("click");
             $('.sidebar').toggleClass("show");
         });
-
         $('.supplier-btn').click(function(){
             $('nav ul .feat-show').toggleClass("show");
         });
@@ -108,10 +109,10 @@
         $('.cus-btn').click(function(){
             $('nav ul .cus-show').toggleClass("show1");
         });
-
         $('.mat-btn').click(function(){
             $('nav ul .mat-show').toggleClass("show3");
         });
+
         function toggleMenu(){
             let sidebar = document.querySelector('.sidebar');
             let toggle = document.querySelector('.toggle');

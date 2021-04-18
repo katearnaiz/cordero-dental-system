@@ -6,12 +6,17 @@ from django.views.decorators.csrf import csrf_exempt
 
 app_name = 'dentalapp'
 urlpatterns = [
+    path('register/',views.registerPage, name='register'),
+    path('login/',views.loginPage, name='login'),
+    path('logout/',views.logoutUser, name='logout'),
+
+
     path('',views.dentalapp, name='dentalapp'),
     path('supplierList',views.supplierList, name="supplier_list"),
     path('supplierForm',views.supplierForm, name="supplier_form"),
     path('<int:id>/',views.supplierForm, name='supplier_update'),
     path('supplierdelete/<int:id>/',views.supplierDelete, name='supplier_delete'),
-    path('search-supplier',csrf_exempt(views.search_supplier), name='search_supplier'),
+    #path('search-supplier',csrf_exempt(views.search_supplier), name='search_supplier'),
     path('customerList',views.customerList, name="customer_list"),
     path('customerForm',views.customerForm, name="customer_form"),
     path('customer<int:id>/',views.customerForm, name='customer_update'),
